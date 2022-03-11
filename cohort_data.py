@@ -210,7 +210,18 @@ def find_duped_last_names(filename):
       - set[str]: a set of strings
     """
 
-    # TODO: replace this with your code
+    duplicates = set()
+    non_duplicates = set()
+
+    for the_full_name, _, _, _ in all_data(filename):
+      last = the_full_name.split(' ')[-1]
+
+      if last in non_duplicates:
+        duplicates.add(last)
+
+      non_duplicates.add(last)
+
+    return duplicates
 
 
 def get_housemates_for(filename, name):

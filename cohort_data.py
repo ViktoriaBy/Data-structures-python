@@ -1,6 +1,9 @@
 """Functions to parse a file containing student data."""
 
 
+from xml.sax.handler import ContentHandler
+
+
 def all_houses(filename):
     """Return a set of all house names in the given file.
 
@@ -221,7 +224,7 @@ def find_duped_last_names(filename):
 
       non_duplicates.add(last)
 
-    return duplicates
+      return duplicates
 
 
 def get_housemates_for(filename, name):
@@ -235,8 +238,26 @@ def get_housemates_for(filename, name):
     >>> get_housemates_for('cohort_data.txt', 'Hermione Granger')
     {'Angelina Johnson', ..., 'Seamus Finnigan'}
     """
+    housemates = set()
 
-    # TODO: replace this with your code
+    target_person = None
+    for person in all_data(filename):
+      the_full_name, house, adviser, cohort_name = person
+
+      if the_full_name == name:
+        target_person = person
+        break
+
+    if target_person:
+      target_name, target_house, _, cohort_name, _, target_cohort = target_person
+
+      for the_full_name, house, _, cohort_name in all_data(filename):
+        if ((house, cohort_name) == (target_house, target_cohort) and
+              the_full_name != name):
+            housemates.add(the_full_name)
+
+    return housemates
+   
 
 
 ##############################################################################

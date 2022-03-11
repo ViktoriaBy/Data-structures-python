@@ -160,7 +160,12 @@ def all_data(filename):
 
     all_data = []
 
-    # TODO: replace this with your code
+    txt = open(filename)
+
+    for line in txt:
+      first_name, last_name, house, adviser, cohort_name = line.rstrip().split('|')
+      all_data.append(('f {first_name} {last_name}', house, adviser, cohort_name))
+    
 
     return all_data
 
